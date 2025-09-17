@@ -2,101 +2,132 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Place AI Phone Call • Greentick</title>
+  <title>Temp Phone Call • Greentick</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root{
-      --bg:#0b0f14; --glass:rgba(255,255,255,.08); --glass-strong:rgba(255,255,255,.12);
-      --text:#e8eef5; --muted:#a3b2c2; --accent:#24d26d; --accent-2:#2dd4bf;
-      --radius:16px; --blur:18px; --shadow:0 20px 40px rgba(0,0,0,.35);
-    }
-    body{margin:0;min-height:100vh;display:grid;place-items:center;
+    :root{--bg:#0b0f14;--glass:rgba(255,255,255,.08);--glass-2:rgba(255,255,255,.12);
+      --text:#e8eef5;--muted:#a3b2c2;--accent:#24d26d;--accent-2:#2dd4bf;--radius:16px;--blur:18px;}
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;display:grid;place-items:center;
       background:radial-gradient(1200px 800px at 10% -10%,#143a4e 0%,transparent 60%),
                  radial-gradient(1000px 800px at 110% 10%,#1b4230 0%,transparent 60%),
                  linear-gradient(180deg,#0b0f14,#0b0f14);
-      color:var(--text);font:16px/1.4 ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;
-      padding:24px;}
-    .card{max-width:980px;width:100%;background:var(--glass);backdrop-filter:blur(var(--blur));
-      border:1px solid rgba(255,255,255,.12);border-radius:calc(var(--radius)+4px);
-      box-shadow:var(--shadow);overflow:hidden;}
+      color:var(--text);font:16px/1.4 ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;padding:24px}
+    .card{width:100%;max-width:980px;background:var(--glass);backdrop-filter:blur(var(--blur));
+      border:1px solid rgba(255,255,255,.12);border-radius:calc(var(--radius)+4px);overflow:hidden}
     .header{padding:20px 24px;background:linear-gradient(135deg,rgba(36,210,109,.18),rgba(45,212,191,.12));
-      border-bottom:1px solid rgba(255,255,255,.1);}
-    .title{margin:0;font-weight:700;}
-    .subtitle{margin:6px 0 0;color:var(--muted);font-size:14px;}
-    .content{padding:20px 24px 8px;display:grid;gap:18px;}
-    .section{padding:16px;background:var(--glass-strong);border:1px solid rgba(255,255,255,.12);
-      border-radius:var(--radius);}
-    .section h3{margin:0 0 12px;font-size:16px;font-weight:700;color:#dff7ea;}
-    .row{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;}
-    .col-6{grid-column:span 6;} .col-12{grid-column:span 12;}
-    label{display:block;font-size:12px;color:var(--muted);margin:6px 2px;}
-    input,textarea{width:100%;padding:12px 14px;border-radius:12px;
-      border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--text);}
-    textarea{resize:vertical;min-height:96px;}
-    input::file-selector-button{background:var(--accent);color:#052016;border:none;
-      padding:8px 12px;border-radius:8px;cursor:pointer;margin-right:8px;}
-    .hint{font-size:12px;color:var(--muted);margin-top:6px;}
-    .actions{display:flex;gap:12px;justify-content:flex-end;padding:8px 24px 20px;}
-    .btn{border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;}
-    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#052016;}
-    .btn-secondary{background:rgba(255,255,255,.08);color:var(--text);}
-    .status{margin:0 24px 18px;padding:12px 14px;border-radius:12px;display:none;white-space:pre-wrap;}
-    .status.ok{display:block;border:1px solid var(--accent);} 
-    .status.err{display:block;border:1px solid red;color:#ffd9d9;}
-    @media(max-width:880px){.col-6{grid-column:span 12;}}
+      border-bottom:1px solid rgba(255,255,255,.1)}
+    .title{margin:0;font-weight:700} .subtitle{margin:6px 0 0;color:var(--muted);font-size:14px}
+    .content{padding:20px 24px 8px;display:grid;gap:18px}
+    .section{padding:16px;background:var(--glass-2);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius)}
+    .section h3{margin:0 0 12px;font-size:16px;font-weight:700;color:#dff7ea}
+    .row{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .col-6{grid-column:span 6} .col-12{grid-column:span 12}
+    label{display:block;font-size:12px;color:var(--muted);margin:6px 2px}
+    input,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);color:var(--text)}
+    textarea{resize:vertical;min-height:96px}
+    .hint{font-size:12px;color:var(--muted);margin-top:6px}
+    .actions{display:flex;gap:12px;justify-content:flex-end;padding:8px 24px 20px}
+    .btn{border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#052016}
+    .btn-secondary{background:rgba(255,255,255,.08);color:var(--text)}
+    .status{margin:0 24px 18px;padding:12px 14px;border-radius:12px;display:none;white-space:pre-wrap}
+    .status.ok{display:block;border:1px solid var(--accent)} .status.err{display:block;border:1px solid #ff6b6b;color:#ffd9d9}
+    @media(max-width:880px){.col-6{grid-column:span 12}}
   </style>
 </head>
 <body>
   <main class="card">
     <div class="header">
-      <h1 class="title">Place AI Phone Call</h1>
-      <p class="subtitle">Glassmorphic demo • Calls Supabase Edge Function</p>
+      <h1 class="title">Temp Phone Call</h1>
+      <p class="subtitle">Public demo • Calls your <code>temp-phone-call</code> function</p>
     </div>
 
     <form id="callForm" class="content">
-      <!-- Candidate -->
+      <div class="section">
+        <h3>Function Endpoint</h3>
+        <label>Function URL</label>
+        <input id="fnUrl" type="url" required
+          placeholder="https://jveelmagtbnudwcdadpm.supabase.co/functions/v1/temp-phone-call" />
+        <p class="hint">No auth needed (verify_jwt=false). You may still add <code>apikey</code> if you want.</p>
+      </div>
+
+      <div class="section">
+        <h3>Assistant</h3>
+        <div class="row">
+          <div class="col-6">
+            <label>Vapi Assistant ID *</label>
+            <input id="assistantId" type="text" required placeholder="Vapi assistant UUID" />
+          </div>
+          <div class="col-6">
+            <label>Vapi Phone Number ID (optional)</label>
+            <input id="phoneNumberId" type="text" placeholder="Overrides default caller ID" />
+            <p class="hint">Free Vapi numbers are US-only. For +91 etc., import a carrier number and use its ID here.</p>
+          </div>
+        </div>
+      </div>
+
       <div class="section">
         <h3>Candidate</h3>
         <div class="row">
           <div class="col-6">
             <label>Name</label>
-            <input id="candidateName" type="text" required placeholder="Jane Doe" />
+            <input id="candidateName" type="text" placeholder="Jane Doe" />
           </div>
           <div class="col-6">
-            <label>Phone</label>
-            <input id="candidatePhone" type="tel" required placeholder="+91 98765 43210" />
-          </div>
-          <div class="col-12">
-            <label>Resume (PDF/DOC)</label>
-            <input id="resumeFile" type="file" accept=".pdf,.doc,.docx" />
-            <p class="hint">Uploaded to Supabase Storage. Public URL is sent with payload.</p>
+            <label>Phone (E.164 or 10-digit IN)</label>
+            <input id="candidatePhone" type="tel" required placeholder="+1 415 555 1234" />
           </div>
         </div>
+        <label>Resume Text (optional)</label>
+        <textarea id="resumeText" placeholder="Paste resume summary..."></textarea>
+        <label>Resume URL (optional)</label>
+        <input id="resumeUrl" type="url" placeholder="https://example.com/resume.pdf" />
       </div>
 
-      <!-- Job -->
       <div class="section">
         <h3>Job</h3>
-        <label>Description (optional)</label>
-        <textarea id="jdText"></textarea>
-      </div>
+        <label>Job Description (optional)</label>
+        <textarea id="jdText" placeholder="Paste job description..."></textarea>
 
-      <!-- Assistant -->
-      <div class="section">
-        <h3>Assistant</h3>
         <div class="row">
           <div class="col-6">
-            <label>Agent ID (optional)</label>
-            <input id="agentId" type="text" />
+            <label>Position (optional)</label>
+            <input id="position" type="text" placeholder="Senior PM" />
           </div>
           <div class="col-6">
-            <label>Vapi Assistant ID (optional)</label>
-            <input id="assistantId" type="text" />
+            <label>Organization (optional)</label>
+            <input id="organization" type="text" placeholder="Greentick" />
+          </div>
+          <div class="col-6">
+            <label>Preferred Location (optional)</label>
+            <input id="preferredLocation" type="text" placeholder="Bengaluru / Remote" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <label>Budget Min (optional)</label>
+            <input id="budgetMin" type="number" step="0.01" />
+          </div>
+          <div class="col-6">
+            <label>Budget Max (optional)</label>
+            <input id="budgetMax" type="number" step="0.01" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label>Currency (optional)</label>
+            <input id="currency" type="text" placeholder="USD / LPA" />
+          </div>
+          <div class="col-6">
+            <label>Languages (CSV, optional)</label>
+            <input id="languages" type="text" placeholder="english, chinese-mandarin, hindi" />
           </div>
         </div>
       </div>
 
-      <pre id="status" class="status"></pre>
+      <pre id="status" class="status" aria-live="polite"></pre>
       <div class="actions">
         <button type="reset" class="btn btn-secondary">Clear</button>
         <button type="submit" class="btn btn-primary">Place Phone Call</button>
@@ -104,79 +135,88 @@
     </form>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // ---- CONFIG ----
-    const SUPABASE_URL = 'https://jveelmagtbnudwcdadpm.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2ZWVsbWFndGJudWR3Y2RhZHBtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTk1MTEsImV4cCI6MjA2NjY5NTUxMX0.CymjRyzh8SoUei_1FC9q9sOXVHPihGPxrtSsnmboy2A';
-    const FN_URL = SUPABASE_URL + '/functions/v1/place-phone-call';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const $ = (id) => document.getElementById(id);
+    const statusBox = $("status");
 
-    const el = id => document.getElementById(id);
-    const statusBox = el('status');
-
-    function showStatus(ok, msg, extra){
-      statusBox.className = 'status ' + (ok?'ok':'err');
-      statusBox.style.display = 'block';
-      statusBox.textContent = msg + (extra? '\n'+JSON.stringify(extra,null,2):'');
+    function show(ok, msg, extra) {
+      statusBox.className = "status " + (ok ? "ok" : "err");
+      statusBox.style.display = "block";
+      statusBox.textContent =
+        (typeof msg === "string" ? msg : JSON.stringify(msg, null, 2)) +
+        (extra ? "\n" + JSON.stringify(extra, null, 2) : "");
     }
 
     function normalizePhone(raw){
-      if(!raw) return '';
-      let s = raw.trim().replace(/\D/g,'');
-      if(s.length===10) return '+91'+s;
-      if(!raw.startsWith('+')) return '+'+s;
-      return raw;
+      if(!raw) return "";
+      let s = String(raw).trim();
+      if (s.startsWith("00")) s = "+" + s.slice(2);
+      if (s.startsWith("+")) s = "+" + s.slice(1).replace(/\D/g, "");
+      else s = s.replace(/\D/g, "");
+      if (!s.startsWith("+") && s.length === 10) s = "+91" + s; // convenience for IN
+      return s;
     }
 
-    async function uploadResume(file){
-      if(!file) return null;
-      const path = `resumes/${Date.now()}_${file.name}`;
-      let { error } = await supabase.storage.from('resumes').upload(path,file,{upsert:true});
-      if(error){ throw error; }
-      const { data } = supabase.storage.from('resumes').getPublicUrl(path);
-      return data.publicUrl;
-    }
+    document.getElementById("callForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      statusBox.style.display = "none";
 
-    document.getElementById('callForm').addEventListener('submit', async (e)=>{
-      e.preventDefault(); statusBox.style.display='none';
+      const fnUrl = $("fnUrl").value.trim();
+      const vapi_assistant_id = $("assistantId").value.trim();
+      const vapi_phone_number_id = $("phoneNumberId").value.trim();
+      const candidate_name = $("candidateName").value.trim();
+      const phone_number = normalizePhone($("candidatePhone").value);
+      const job_description = $("jdText").value.trim();
+      const resume_text = $("resumeText").value.trim();
+      const resume_url = $("resumeUrl").value.trim();
+      const position = $("position").value.trim();
+      const organization = $("organization").value.trim();
+      const preferred_location = $("preferredLocation").value.trim();
+      const budget_min = Number($("budgetMin").value);
+      const budget_max = Number($("budgetMax").value);
+      const currency = $("currency").value.trim();
+      const langsCSV = $("languages").value.trim();
+
+      if (!fnUrl) return show(false, "Function URL is required");
+      if (!vapi_assistant_id) return show(false, "Vapi Assistant ID is required");
+      if (!phone_number) return show(false, "Candidate phone is required");
+
+      const payload = {
+        phone_number,
+        vapi_assistant_id,
+        vapi_phone_number_id: vapi_phone_number_id || undefined,
+        candidate_name: candidate_name || undefined,
+        interviewer_name: "HR Interviewer",
+        job_description: job_description || undefined,
+        resume_text: resume_text || undefined,
+        resume_url: resume_url || undefined,
+        position: position || undefined,
+        organization: organization || undefined,
+        preferred_location: preferred_location || undefined,
+        budget_min: Number.isFinite(budget_min) ? budget_min : undefined,
+        budget_max: Number.isFinite(budget_max) ? budget_max : undefined,
+        currency: currency || undefined,
+        languages: langsCSV ? langsCSV.split(",").map(s => s.trim()).filter(Boolean) : undefined,
+        metadata: { from: "github-pages-temp-ui" }
+      };
 
       try {
-        const candidate_name = el('candidateName').value.trim();
-        const phone_number = normalizePhone(el('candidatePhone').value);
-        if(!candidate_name||!phone_number) return showStatus(false,'Name and phone required');
-
-        // Upload resume if provided
-        const resumeFile = el('resumeFile').files[0];
-        let resume_url = null;
-        if(resumeFile){ resume_url = await uploadResume(resumeFile); }
-
-        const payload = {
-          candidate_name,
-          phone_number,
-          jd_text: el('jdText').value.trim() || undefined,
-          agent_id: el('agentId').value.trim() || undefined,
-          vapi_assistant_id: el('assistantId').value.trim() || undefined,
-          resume_url, // include resume link if uploaded
-          metadata: { from: 'glassmorphic-demo' }
-        };
-
-        const res = await fetch(FN_URL,{
-          method:'POST',
-          headers:{
-            'Content-Type':'application/json',
-            'apikey':SUPABASE_ANON_KEY,
-            'Authorization':'Bearer '+SUPABASE_ANON_KEY
-          },
-          body: JSON.stringify(payload)
+        const res = await fetch(fnUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" } // no auth needed
+          ,body: JSON.stringify(payload)
         });
 
         const text = await res.text();
-        let data; try{ data=JSON.parse(text);}catch{data={raw:text};}
+        let data; try { data = text ? JSON.parse(text) : {}; } catch { data = { raw: text }; }
 
-        if(!res.ok||data.ok===false){ return showStatus(false,data.error||'Request failed',data.details); }
-        showStatus(true,'Call queued successfully ✅',data);
-      } catch(err){ showStatus(false,'Error: '+err.message); }
+        if (!res.ok || data?.ok === false) {
+          return show(false, data?.error || "Request failed", data?.details || data);
+        }
+        show(true, "Call queued successfully ✅", data);
+      } catch (err) {
+        show(false, "Network error", { message: String(err) });
+      }
     });
   </script>
 </body>
