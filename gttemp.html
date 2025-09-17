@@ -6,126 +6,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{
-      --bg: #0b0f14;
-      --glass: rgba(255,255,255,0.08);
-      --glass-strong: rgba(255,255,255,0.12);
-      --text: #e8eef5;
-      --muted: #a3b2c2;
-      --accent: #24d26d;
-      --accent-2: #2dd4bf;
-      --danger: #ff6b6b;
-      --radius: 16px;
-      --shadow: 0 20px 40px rgba(0,0,0,.35);
-      --blur: 18px;
+      --bg:#0b0f14; --glass:rgba(255,255,255,.08); --glass-strong:rgba(255,255,255,.12);
+      --text:#e8eef5; --muted:#a3b2c2; --accent:#24d26d; --accent-2:#2dd4bf;
+      --radius:16px; --blur:18px; --shadow:0 20px 40px rgba(0,0,0,.35);
     }
-    *{ box-sizing: border-box; }
-    body{
-      margin: 0;
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
-      background:
-        radial-gradient(1200px 800px at 10% -10%, #143a4e 0%, transparent 60%),
-        radial-gradient(1000px 800px at 110% 10%, #1b4230 0%, transparent 60%),
-        linear-gradient(180deg, #0b0f14, #0b0f14);
-      color: var(--text);
-      font: 16px/1.4 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      padding: 24px;
-    }
-    .card{
-      width: 100%;
-      max-width: 980px;
-      background: var(--glass);
-      backdrop-filter: blur(var(--blur));
-      -webkit-backdrop-filter: blur(var(--blur));
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: calc(var(--radius) + 4px);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-    .header{
-      padding: 20px 24px;
-      background: linear-gradient(135deg, rgba(36,210,109,.18), rgba(45,212,191,.12));
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .title{ margin: 0; font-weight: 700; letter-spacing: .2px; }
-    .subtitle{ margin: 6px 0 0; color: var(--muted); font-size: 14px; }
-    .content{ padding: 20px 24px 8px; display: grid; gap: 18px; }
-    .section{
-      padding: 16px;
-      background: var(--glass-strong);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: var(--radius);
-    }
-    .section h3{ margin: 0 0 12px; font-size: 16px; font-weight: 700; color: #dff7ea; }
-    .row{ display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
-    .col-6{ grid-column: span 6; } .col-12{ grid-column: span 12; }
-    label{ display:block; font-size:12px; color:var(--muted); margin:6px 2px; }
-    input, textarea{
-      width:100%; padding:12px 14px; border-radius:12px;
-      border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06);
-      color:var(--text); outline:none; transition: border-color .15s, box-shadow .15s, background .15s;
-    }
-    input::placeholder, textarea::placeholder{ color:#93a4b6; }
-    input:focus, textarea:focus{
-      border-color: rgba(45,212,191,.6);
-      box-shadow: 0 0 0 3px rgba(45,212,191,.15);
-      background: rgba(255,255,255,.08);
-    }
-    textarea{ resize: vertical; min-height: 96px; }
-    .hint{ font-size:12px; color:var(--muted); margin-top:6px; }
-    .actions{ display:flex; gap:12px; justify-content:flex-end; padding:8px 24px 20px; }
-    .btn{ appearance:none; border:0; border-radius:12px; padding:12px 16px; font-weight:700; cursor:pointer; transition:.06s transform ease,.2s box-shadow ease,.2s opacity ease; }
-    .btn:active{ transform: translateY(1px); }
-    .btn-primary{ background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#052016; box-shadow:0 12px 30px rgba(36,210,109,.25); }
-    .btn-secondary{ background: rgba(255,255,255,.08); color:var(--text); border:1px solid rgba(255,255,255,.12); }
-    .status{
-      margin: 0 24px 18px; padding: 12px 14px; border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06);
-      display: none; white-space: pre-wrap; word-break: break-word;
-    }
-    .status.ok{ display:block; border-color: rgba(36,210,109,.45); }
-    .status.err{ display:block; border-color: rgba(255,107,107,.45); color:#ffd9d9; }
-    @media (max-width: 880px){ .col-6{ grid-column: span 12; } }
+    body{margin:0;min-height:100vh;display:grid;place-items:center;
+      background:radial-gradient(1200px 800px at 10% -10%,#143a4e 0%,transparent 60%),
+                 radial-gradient(1000px 800px at 110% 10%,#1b4230 0%,transparent 60%),
+                 linear-gradient(180deg,#0b0f14,#0b0f14);
+      color:var(--text);font:16px/1.4 ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;
+      padding:24px;}
+    .card{max-width:980px;width:100%;background:var(--glass);backdrop-filter:blur(var(--blur));
+      border:1px solid rgba(255,255,255,.12);border-radius:calc(var(--radius)+4px);
+      box-shadow:var(--shadow);overflow:hidden;}
+    .header{padding:20px 24px;background:linear-gradient(135deg,rgba(36,210,109,.18),rgba(45,212,191,.12));
+      border-bottom:1px solid rgba(255,255,255,.1);}
+    .title{margin:0;font-weight:700;}
+    .subtitle{margin:6px 0 0;color:var(--muted);font-size:14px;}
+    .content{padding:20px 24px 8px;display:grid;gap:18px;}
+    .section{padding:16px;background:var(--glass-strong);border:1px solid rgba(255,255,255,.12);
+      border-radius:var(--radius);}
+    .section h3{margin:0 0 12px;font-size:16px;font-weight:700;color:#dff7ea;}
+    .row{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;}
+    .col-6{grid-column:span 6;} .col-12{grid-column:span 12;}
+    label{display:block;font-size:12px;color:var(--muted);margin:6px 2px;}
+    input,textarea{width:100%;padding:12px 14px;border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--text);}
+    textarea{resize:vertical;min-height:96px;}
+    input::file-selector-button{background:var(--accent);color:#052016;border:none;
+      padding:8px 12px;border-radius:8px;cursor:pointer;margin-right:8px;}
+    .hint{font-size:12px;color:var(--muted);margin-top:6px;}
+    .actions{display:flex;gap:12px;justify-content:flex-end;padding:8px 24px 20px;}
+    .btn{border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#052016;}
+    .btn-secondary{background:rgba(255,255,255,.08);color:var(--text);}
+    .status{margin:0 24px 18px;padding:12px 14px;border-radius:12px;display:none;white-space:pre-wrap;}
+    .status.ok{display:block;border:1px solid var(--accent);} 
+    .status.err{display:block;border:1px solid red;color:#ffd9d9;}
+    @media(max-width:880px){.col-6{grid-column:span 12;}}
   </style>
 </head>
 <body>
-  <main class="card" role="main">
+  <main class="card">
     <div class="header">
       <h1 class="title">Place AI Phone Call</h1>
-      <p class="subtitle">Glassmorphic demo • Calls your Supabase Edge Function</p>
+      <p class="subtitle">Glassmorphic demo • Calls Supabase Edge Function</p>
     </div>
 
     <form id="callForm" class="content">
-      <!-- Endpoint -->
-      <div class="section">
-        <h3>Function Endpoint</h3>
-        <div class="row">
-          <div class="col-12">
-            <label for="fnUrl">Supabase Function URL</label>
-            <input id="fnUrl" name="fnUrl" type="url" required
-              placeholder="https://YOUR-PROJECT.supabase.co/functions/v1/place-phone-call"
-              value="https://jveelmagtbnudwcdadpm.supabase.co/functions/v1/place-phone-call" />
-            <p class="hint">Your deployed <code>place-phone-call</code> function endpoint.</p>
-          </div>
-        </div>
-      </div>
-
       <!-- Candidate -->
       <div class="section">
         <h3>Candidate</h3>
         <div class="row">
           <div class="col-6">
-            <label for="candidateName">Name</label>
-            <input id="candidateName" name="candidateName" type="text" required placeholder="Jane Doe" />
+            <label>Name</label>
+            <input id="candidateName" type="text" required placeholder="Jane Doe" />
           </div>
           <div class="col-6">
-            <label for="candidatePhone">Phone (E.164 or 10-digit IN)</label>
-            <input id="candidatePhone" name="candidatePhone" type="tel" required placeholder="+91 98765 43210" />
+            <label>Phone</label>
+            <input id="candidatePhone" type="tel" required placeholder="+91 98765 43210" />
           </div>
-          <div class="col-6">
-            <label for="interviewerName">Interviewer (optional)</label>
-            <input id="interviewerName" name="interviewerName" type="text" placeholder="AI Interviewer" />
+          <div class="col-12">
+            <label>Resume (PDF/DOC)</label>
+            <input id="resumeFile" type="file" accept=".pdf,.doc,.docx" />
+            <p class="hint">Uploaded to Supabase Storage. Public URL is sent with payload.</p>
           </div>
         </div>
       </div>
@@ -133,12 +77,8 @@
       <!-- Job -->
       <div class="section">
         <h3>Job</h3>
-        <div class="row">
-          <div class="col-12">
-            <label for="jdText">Job Description (optional)</label>
-            <textarea id="jdText" name="jdText" placeholder="Paste job description here..."></textarea>
-          </div>
-        </div>
+        <label>Description (optional)</label>
+        <textarea id="jdText"></textarea>
       </div>
 
       <!-- Assistant -->
@@ -146,25 +86,17 @@
         <h3>Assistant</h3>
         <div class="row">
           <div class="col-6">
-            <label for="agentId">Internal Agent ID (optional)</label>
-            <input id="agentId" name="agentId" type="text" placeholder="public.ai_agents.id (UUID)" />
-            <p class="hint">Server will read <code>ai_agents.vapi_assistant_id</code> for this ID.</p>
+            <label>Agent ID (optional)</label>
+            <input id="agentId" type="text" />
           </div>
           <div class="col-6">
-            <label for="assistantId">Vapi Assistant ID (optional)</label>
-            <input id="assistantId" name="assistantId" type="text" placeholder="Vapi assistant UUID" />
-            <p class="hint">If set, server uses this directly and skips DB lookup.</p>
-          </div>
-          <div class="col-6">
-            <label for="phoneNumberId">Vapi Phone Number ID (optional)</label>
-            <input id="phoneNumberId" name="phoneNumberId" type="text" placeholder="Overrides default caller ID" />
-            <p class="hint">Leave blank to use server default.</p>
+            <label>Vapi Assistant ID (optional)</label>
+            <input id="assistantId" type="text" />
           </div>
         </div>
       </div>
 
-      <pre id="status" class="status" aria-live="polite"></pre>
-
+      <pre id="status" class="status"></pre>
       <div class="actions">
         <button type="reset" class="btn btn-secondary">Clear</button>
         <button type="submit" class="btn btn-primary">Place Phone Call</button>
@@ -172,91 +104,79 @@
     </form>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // ---- CONFIG: set your public anon key below ----
+    // ---- CONFIG ----
+    const SUPABASE_URL = 'https://jveelmagtbnudwcdadpm.supabase.co';
     const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
-    // If you have a signed-in user, you can swap Authorization to their JWT instead.
+    const FN_URL = SUPABASE_URL + '/functions/v1/place-phone-call';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const el = (id) => document.getElementById(id);
+    const el = id => document.getElementById(id);
     const statusBox = el('status');
 
+    function showStatus(ok, msg, extra){
+      statusBox.className = 'status ' + (ok?'ok':'err');
+      statusBox.style.display = 'block';
+      statusBox.textContent = msg + (extra? '\n'+JSON.stringify(extra,null,2):'');
+    }
+
     function normalizePhone(raw){
-      if (!raw) return '';
-      let s = String(raw).trim();
-      if (s.startsWith('00')) s = '+' + s.slice(2);
-      if (s.startsWith('+')) s = '+' + s.slice(1).replace(/\D/g, '');
-      else s = s.replace(/\D/g, '');
-      if (!s.startsWith('+') && s.length === 10) s = '+91' + s;
-      return s;
+      if(!raw) return '';
+      let s = raw.trim().replace(/\D/g,'');
+      if(s.length===10) return '+91'+s;
+      if(!raw.startsWith('+')) return '+'+s;
+      return raw;
     }
 
-    function showStatus(ok, msg, extra) {
-      statusBox.className = 'status ' + (ok ? 'ok' : 'err');
-      statusBox.textContent = (typeof msg === 'string' ? msg : JSON.stringify(msg, null, 2))
-        + (extra ? '\n' + JSON.stringify(extra, null, 2) : '');
+    async function uploadResume(file){
+      if(!file) return null;
+      const path = `resumes/${Date.now()}_${file.name}`;
+      let { error } = await supabase.storage.from('resumes').upload(path,file,{upsert:true});
+      if(error){ throw error; }
+      const { data } = supabase.storage.from('resumes').getPublicUrl(path);
+      return data.publicUrl;
     }
 
-    document.getElementById('callForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      statusBox.className = 'status'; statusBox.textContent = '';
-
-      const fnUrl = el('fnUrl').value.trim();
-      const candidate_name = el('candidateName').value.trim();
-      const phone_number = normalizePhone(el('candidatePhone').value);
-      const interviewer_name = el('interviewerName').value.trim();
-      const jd_text = el('jdText').value.trim();
-
-      const agent_id = el('agentId').value.trim();
-      const vapi_assistant_id = el('assistantId').value.trim();
-      const vapi_phone_number_id = el('phoneNumberId').value.trim();
-
-      if (!fnUrl) return showStatus(false, 'Please provide your function URL.');
-      if (!candidate_name) return showStatus(false, 'Candidate name is required.');
-      if (!phone_number) return showStatus(false, 'Candidate phone is required.');
-
-      const payload = {
-        candidate_name,
-        phone_number,
-        interviewer_name: interviewer_name || undefined,
-        jd_text: jd_text || undefined,
-
-        // Either/both are OK:
-        agent_id: agent_id || undefined,                   // server: lookup ai_agents.vapi_assistant_id
-        vapi_assistant_id: vapi_assistant_id || undefined, // server: use directly if present
-
-        // Optional override (server has default if omitted)
-        vapi_phone_number_id: vapi_phone_number_id || undefined,
-
-        metadata: { from: 'glassmorphic-demo' }
-      };
+    document.getElementById('callForm').addEventListener('submit', async (e)=>{
+      e.preventDefault(); statusBox.style.display='none';
 
       try {
-        const res = await fetch(fnUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            // Required by Supabase edge functions gateway
-            'apikey': eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2ZWVsbWFndGJudWR3Y2RhZHBtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTk1MTEsImV4cCI6MjA2NjY5NTUxMX0.CymjRyzh8SoUei_1FC9q9sOXVHPihGPxrtSsnmboy2A,
-            // If verify_jwt=true (default), either pass a user JWT here,
-            // or the anon key as the bearer (public).
-            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+        const candidate_name = el('candidateName').value.trim();
+        const phone_number = normalizePhone(el('candidatePhone').value);
+        if(!candidate_name||!phone_number) return showStatus(false,'Name and phone required');
+
+        // Upload resume if provided
+        const resumeFile = el('resumeFile').files[0];
+        let resume_url = null;
+        if(resumeFile){ resume_url = await uploadResume(resumeFile); }
+
+        const payload = {
+          candidate_name,
+          phone_number,
+          jd_text: el('jdText').value.trim() || undefined,
+          agent_id: el('agentId').value.trim() || undefined,
+          vapi_assistant_id: el('assistantId').value.trim() || undefined,
+          resume_url, // include resume link if uploaded
+          metadata: { from: 'glassmorphic-demo' }
+        };
+
+        const res = await fetch(FN_URL,{
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+            'apikey':SUPABASE_ANON_KEY,
+            'Authorization':'Bearer '+SUPABASE_ANON_KEY
           },
           body: JSON.stringify(payload)
         });
 
         const text = await res.text();
-        let data;
-        try { data = text ? JSON.parse(text) : {}; } catch { data = { raw: text }; }
+        let data; try{ data=JSON.parse(text);}catch{data={raw:text};}
 
-        if (!res.ok || data?.ok === false) {
-          showStatus(false, data?.error || 'Request failed', data?.details || data);
-          return;
-        }
-
-        showStatus(true, 'Call queued successfully ✅', data);
-      } catch (err) {
-        showStatus(false, 'Network error', { message: String(err) });
-      }
+        if(!res.ok||data.ok===false){ return showStatus(false,data.error||'Request failed',data.details); }
+        showStatus(true,'Call queued successfully ✅',data);
+      } catch(err){ showStatus(false,'Error: '+err.message); }
     });
   </script>
 </body>
