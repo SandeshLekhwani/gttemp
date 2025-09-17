@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{--bg:#0b0f14;--glass:rgba(255,255,255,.08);--glass-2:rgba(255,255,255,.12);
-      --text:#e8eef5;--muted:#a3b2c2;--accent:#24d26d;--accent-2:#2dd4bf;--radius:16px;--blur:18px;}
+      --text:#e8eef5;--muted:#a3b2c2;--accent:#24d26d;--accent-2:#2dd4bf;--radius:16px;--blur:18px}
     *{box-sizing:border-box} body{margin:0;min-height:100vh;display:grid;place-items:center;
       background:radial-gradient(1200px 800px at 10% -10%,#143a4e 0%,transparent 60%),
                  radial-gradient(1000px 800px at 110% 10%,#1b4230 0%,transparent 60%),
@@ -25,7 +25,7 @@
     label{display:block;font-size:12px;color:var(--muted);margin:6px 2px}
     input,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);
       background:rgba(255,255,255,.06);color:var(--text)}
-    textarea{resize:vertical;min-height:96px}
+    textarea{resize:vertical;min-height:120px}
     .hint{font-size:12px;color:var(--muted);margin-top:6px}
     .actions{display:flex;gap:12px;justify-content:flex-end;padding:8px 24px 20px}
     .btn{border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
@@ -44,14 +44,16 @@
     </div>
 
     <form id="callForm" class="content">
+      <!-- Function -->
       <div class="section">
         <h3>Function Endpoint</h3>
         <label>Function URL</label>
         <input id="fnUrl" type="url" required
-          placeholder="https://jveelmagtbnudwcdadpm.supabase.co/functions/v1/temp-phone-call" />
-        <p class="hint">No auth needed (verify_jwt=false). You may still add <code>apikey</code> if you want.</p>
+          placeholder="https://<project-ref>.supabase.co/functions/v1/temp-phone-call" />
+        <p class="hint">No auth needed (verify_jwt=false). You can still add <code>apikey</code> header if you want.</p>
       </div>
 
+      <!-- Assistant -->
       <div class="section">
         <h3>Assistant</h3>
         <div class="row">
@@ -62,11 +64,12 @@
           <div class="col-6">
             <label>Vapi Phone Number ID (optional)</label>
             <input id="phoneNumberId" type="text" placeholder="Overrides default caller ID" />
-            <p class="hint">Free Vapi numbers are US-only. For +91 etc., import a carrier number and use its ID here.</p>
+            <p class="hint">Free Vapi numbers are US-only. For +91 etc., import a carrier number & use its ID here.</p>
           </div>
         </div>
       </div>
 
+      <!-- Candidate -->
       <div class="section">
         <h3>Candidate</h3>
         <div class="row">
@@ -79,12 +82,39 @@
             <input id="candidatePhone" type="tel" required placeholder="+1 415 555 1234" />
           </div>
         </div>
+
         <label>Resume Text (optional)</label>
-        <textarea id="resumeText" placeholder="Paste resume summary..."></textarea>
+        <textarea id="resumeText" placeholder=
+"Paste resume in plain text, for example:
+
+Name: Jane Doe
+Email: jane@example.com | Phone: +1 415 555 1234 | Location: Bengaluru
+
+SUMMARY
+Product Manager with 7+ years leading cross-functional teams to ship data-driven products.
+
+EXPERIENCE
+Acme Inc — Senior PM (2022–Present)
+- Led platform roadmap; improved activation by 18% and retention by 9%
+- Drove A/B tests on onboarding; lift +6% new-user task completion
+
+Globex — PM (2018–2022)
+- Owned analytics features; reduced query latency by 40%
+- Coordinated with design & eng for 3 major launches
+
+SKILLS
+Product strategy, Roadmapping, SQL, A/B testing, Analytics, JIRA, Figma
+
+EDUCATION
+B.Tech, Computer Science — XYZ University (2016)"
+        ></textarea>
+
         <label>Resume URL (optional)</label>
         <input id="resumeUrl" type="url" placeholder="https://example.com/resume.pdf" />
+        <p class="hint">Both Resume Text and Resume URL are sent. If text is blank, the assistant can still use the URL if accessible.</p>
       </div>
 
+      <!-- Job -->
       <div class="section">
         <h3>Job</h3>
         <label>Job Description (optional)</label>
@@ -136,8 +166,17 @@
   </main>
 
   <script>
+    // ======= OPTIONAL: set your project to pre-fill Function URL =======
+    const SUPABASE_URL = 'https://jveelmagtbnudwcdadpm.supabase.co'; // change if needed
+    // ================================================================
+
     const $ = (id) => document.getElementById(id);
     const statusBox = $("status");
+
+    // Pre-fill the function URL if SUPABASE_URL is set
+    $("fnUrl").value = SUPABASE_URL
+      ? SUPABASE_URL.replace(/\/$/, '') + '/functions/v1/temp-phone-call'
+      : '';
 
     function show(ok, msg, extra) {
       statusBox.className = "status " + (ok ? "ok" : "err");
@@ -153,7 +192,7 @@
       if (s.startsWith("00")) s = "+" + s.slice(2);
       if (s.startsWith("+")) s = "+" + s.slice(1).replace(/\D/g, "");
       else s = s.replace(/\D/g, "");
-      if (!s.startsWith("+") && s.length === 10) s = "+91" + s; // convenience for IN
+      if (!s.startsWith("+") && s.length === 10) s = "+91" + s; // handy default for 10-digit IN
       return s;
     }
 
@@ -167,8 +206,11 @@
       const candidate_name = $("candidateName").value.trim();
       const phone_number = normalizePhone($("candidatePhone").value);
       const job_description = $("jdText").value.trim();
+
+      // ✅ resume text placeholder + value is captured and sent
       const resume_text = $("resumeText").value.trim();
       const resume_url = $("resumeUrl").value.trim();
+
       const position = $("position").value.trim();
       const organization = $("organization").value.trim();
       const preferred_location = $("preferredLocation").value.trim();
@@ -188,8 +230,11 @@
         candidate_name: candidate_name || undefined,
         interviewer_name: "HR Interviewer",
         job_description: job_description || undefined,
+
+        // 👇 passed as requested
         resume_text: resume_text || undefined,
         resume_url: resume_url || undefined,
+
         position: position || undefined,
         organization: organization || undefined,
         preferred_location: preferred_location || undefined,
@@ -203,8 +248,8 @@
       try {
         const res = await fetch(fnUrl, {
           method: "POST",
-          headers: { "Content-Type": "application/json" } // no auth needed
-          ,body: JSON.stringify(payload)
+          headers: { "Content-Type": "application/json" }, // verify_jwt=false -> no auth needed
+          body: JSON.stringify(payload)
         });
 
         const text = await res.text();
