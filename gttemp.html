@@ -5,86 +5,160 @@
   <title>Temp Phone Call • Greentick</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root{--bg:#0b0f14;--glass:rgba(255,255,255,.08);--glass-2:rgba(255,255,255,.12);
-      --text:#e8eef5;--muted:#a3b2c2;--accent:#24d26d;--accent-2:#2dd4bf;--radius:16px;--blur:18px}
-    *{box-sizing:border-box} body{margin:0;min-height:100vh;display:grid;place-items:center;
-      background:radial-gradient(1200px 800px at 10% -10%,#143a4e 0%,transparent 60%),
-                 radial-gradient(1000px 800px at 110% 10%,#1b4230 0%,transparent 60%),
-                 linear-gradient(180deg,#0b0f14,#0b0f14);
-      color:var(--text);font:16px/1.4 ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;padding:24px}
-    .card{width:100%;max-width:980px;background:var(--glass);backdrop-filter:blur(var(--blur));
-      border:1px solid rgba(255,255,255,.12);border-radius:calc(var(--radius)+4px);overflow:hidden}
-    .header{padding:20px 24px;background:linear-gradient(135deg,rgba(36,210,109,.18),rgba(45,212,191,.12));
-      border-bottom:1px solid rgba(255,255,255,.1)}
-    .title{margin:0;font-weight:700} .subtitle{margin:6px 0 0;color:var(--muted);font-size:14px}
-    .content{padding:20px 24px 8px;display:grid;gap:18px}
-    .section{padding:16px;background:var(--glass-2);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius)}
-    .section h3{margin:0 0 12px;font-size:16px;font-weight:700;color:#dff7ea}
-    .row{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-    .col-6{grid-column:span 6} .col-12{grid-column:span 12}
-    label{display:block;font-size:12px;color:var(--muted);margin:6px 2px}
-    input,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.06);color:var(--text)}
-    textarea{resize:vertical;min-height:120px}
-    .hint{font-size:12px;color:var(--muted);margin-top:6px}
-    .actions{display:flex;gap:12px;justify-content:flex-end;padding:8px 24px 20px}
-    .btn{border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
-    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#052016}
-    .btn-secondary{background:rgba(255,255,255,.08);color:var(--text)}
-    .status{margin:0 24px 18px;padding:12px 14px;border-radius:12px;display:none;white-space:pre-wrap}
-    .status.ok{display:block;border:1px solid var(--accent)} .status.err{display:block;border:1px solid #ff6b6b;color:#ffd9d9}
-    @media(max-width:880px){.col-6{grid-column:span 12}}
+    :root{
+      --bg:#0b0f14; --bg2:#0e141b;
+      --glass:rgba(255,255,255,.08); --glass-2:rgba(255,255,255,.12);
+      --text:#e8eef5; --muted:#a3b2c2; --accent:#24d26d; --accent2:#2dd4bf; --danger:#ff6b6b;
+      --ring:rgba(45,212,191,.25);
+      --radius:18px; --radius-sm:12px; --blur:18px;
+      --shadow: 0 18px 40px rgba(0,0,0,.35);
+      --maxw: 980px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:
+        radial-gradient(1200px 800px at 10% -10%, #143a4e 0%, transparent 60%),
+        radial-gradient(900px 600px at 110% 10%, #1b4230 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      color:var(--text); font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      display:flex; min-height:100vh; align-items:center; justify-content:center; padding:20px;
+    }
+    .wrap{ width:100%; max-width:var(--maxw); }
+    .card{
+      background:var(--glass); backdrop-filter:blur(var(--blur));
+      -webkit-backdrop-filter:blur(var(--blur));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:calc(var(--radius) + 2px);
+      box-shadow:var(--shadow); overflow:hidden;
+    }
+    .header{
+      padding:18px 20px;
+      background:linear-gradient(135deg, rgba(36,210,109,.18), rgba(45,212,191,.12));
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+    .title{margin:0; font-weight:800; letter-spacing:.2px; font-size:20px}
+    .subtitle{margin:6px 0 0; color:var(--muted); font-size:13px}
+    .content{ padding:18px; display:grid; gap:16px; }
+    .section{
+      padding:14px; background:var(--glass-2);
+      border:1px solid rgba(255,255,255,.12); border-radius:var(--radius);
+    }
+    .section h3{ margin:0 0 12px; font-size:15px; font-weight:800; color:#dff7ea; letter-spacing:.2px }
+    .grid{ display:grid; gap:12px; }
+    .g12{ grid-template-columns: repeat(12, 1fr); }
+    .col-6{ grid-column: span 6; } .col-12{ grid-column: span 12; }
+    @media (max-width: 880px){ .col-6 { grid-column: span 12; } }
+
+    label{ display:block; font-size:12px; color:var(--muted); margin:4px 2px 6px; }
+    input, textarea{
+      width:100%; padding:12px 14px; border-radius:var(--radius-sm);
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06); color:var(--text); outline:none;
+      transition: box-shadow .15s, border-color .15s, background .15s;
+    }
+    input::placeholder, textarea::placeholder{ color:#94a6b9; }
+    input:focus, textarea:focus{
+      border-color: rgba(45,212,191,.5);
+      box-shadow: 0 0 0 4px var(--ring);
+      background: rgba(255,255,255,.08);
+    }
+    textarea{ min-height:120px; resize:vertical; }
+
+    .hint{ font-size:12px; color:var(--muted); margin-top:4px; }
+    .pill{
+      display:inline-flex; align-items:center; gap:6px; padding:4px 8px; font-size:11px;
+      border-radius:999px; border:1px solid rgba(255,255,255,.16); background:rgba(255,255,255,.06);
+    }
+    .pill.ok{ border-color: rgba(36,210,109,.4); }
+    .pill.warn{ border-color: rgba(255,107,107,.5); color:#ffdcdc; }
+
+    .status{
+      margin: 2px 0 0; padding: 12px 14px; border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.06);
+      display:none; white-space:pre-wrap; word-break:break-word; font-size:13px;
+    }
+    .status.ok{ display:block; border-color: rgba(36,210,109,.45); }
+    .status.err{ display:block; border-color: rgba(255,107,107,.55); color:#ffdada; }
+
+    .actions{
+      position: sticky; bottom: 0; background:
+        linear-gradient(180deg, rgba(11,15,20,0), rgba(11,15,20,.6) 35%, rgba(11,15,20,.8));
+      padding: 14px 18px;
+      display:flex; gap:12px; justify-content:flex-end; border-top:1px solid rgba(255,255,255,.08);
+    }
+    .btn{
+      appearance:none; border:0; border-radius:14px; padding:12px 16px; font-weight:800;
+      cursor:pointer; transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn-primary{
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color:#052016; box-shadow: 0 12px 28px rgba(36,210,109,.28);
+    }
+    .btn-secondary{
+      background: rgba(255,255,255,.08); color:var(--text); border:1px solid rgba(255,255,255,.14);
+    }
+
+    .row-inline{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .note{ font-size:12px; color:#f7e2e2; background:rgba(255,107,107,.14); border:1px solid rgba(255,107,107,.4);
+      padding:8px 10px; border-radius:12px; }
+    code.inline{background:rgba(255,255,255,.07); padding:2px 6px; border-radius:6px; border:1px solid rgba(255,255,255,.12)}
   </style>
 </head>
 <body>
-  <main class="card">
-    <div class="header">
-      <h1 class="title">Temp Phone Call</h1>
-      <p class="subtitle">Public demo • Calls your <code>temp-phone-call</code> function</p>
-    </div>
-
-    <form id="callForm" class="content">
-      <!-- Function -->
-      <div class="section">
-        <h3>Function Endpoint</h3>
-        <label>Function URL</label>
-        <input id="fnUrl" type="url" required
-          placeholder="https://<project-ref>.supabase.co/functions/v1/temp-phone-call" />
-        <p class="hint">No auth needed (verify_jwt=false). You can still add <code>apikey</code> header if you want.</p>
+  <div class="wrap">
+    <div class="card">
+      <div class="header">
+        <h1 class="title">Temp Phone Call</h1>
+        <p class="subtitle">Public demo that calls your <code class="inline">temp-phone-call</code> function</p>
       </div>
 
-      <!-- Assistant -->
-      <div class="section">
-        <h3>Assistant</h3>
-        <div class="row">
-          <div class="col-6">
-            <label>Vapi Assistant ID *</label>
-            <input id="assistantId" type="text" required placeholder="Vapi assistant UUID" />
+      <form id="callForm" class="content">
+        <!-- Function -->
+        <div class="section">
+          <div class="row-inline" style="justify-content:space-between;">
+            <h3 style="margin:0">Function Endpoint</h3>
+            <span class="pill ok" id="defaultsPill" title="Using prefilled defaults">Defaults ready</span>
           </div>
-          <div class="col-6">
-            <label>Vapi Phone Number ID (optional)</label>
-            <input id="phoneNumberId" type="text" placeholder="Overrides default caller ID" />
-            <p class="hint">Free Vapi numbers are US-only. For +91 etc., import a carrier number & use its ID here.</p>
-          </div>
+          <label>Function URL</label>
+          <input id="fnUrl" type="url" required placeholder="https://<project-ref>.supabase.co/functions/v1/temp-phone-call" />
+          <p class="hint">This is auto-filled from <code class="inline">SUPABASE_URL</code>. Auth headers are not required (verify_jwt=false).</p>
         </div>
-      </div>
 
-      <!-- Candidate -->
-      <div class="section">
-        <h3>Candidate</h3>
-        <div class="row">
-          <div class="col-6">
-            <label>Name</label>
-            <input id="candidateName" type="text" placeholder="Jane Doe" />
-          </div>
-          <div class="col-6">
-            <label>Phone (E.164 or 10-digit IN)</label>
-            <input id="candidatePhone" type="tel" required placeholder="+1 415 555 1234" />
+        <!-- Assistant -->
+        <div class="section">
+          <h3>Assistant</h3>
+          <div class="grid g12">
+            <div class="col-6">
+              <label>Vapi Assistant ID *</label>
+              <input id="assistantId" type="text" required placeholder="Vapi assistant UUID" />
+              <p class="hint">Pre-filled from <code class="inline">DEFAULT_ASSISTANT_ID</code> (editable).</p>
+            </div>
+            <div class="col-6">
+              <label>Vapi Phone Number ID (optional)</label>
+              <input id="phoneNumberId" type="text" placeholder="Overrides default caller ID" />
+              <p class="hint">Defaulted from <code class="inline">DEFAULT_PHONE_NUMBER_ID</code> if blank.</p>
+            </div>
           </div>
         </div>
 
-        <label>Resume Text (optional)</label>
-        <textarea id="resumeText" placeholder=
+        <!-- Candidate -->
+        <div class="section">
+          <h3>Candidate</h3>
+          <div class="grid g12">
+            <div class="col-6">
+              <label>Name</label>
+              <input id="candidateName" type="text" placeholder="Jane Doe" />
+            </div>
+            <div class="col-6">
+              <label>Phone (E.164 or 10-digit IN)</label>
+              <input id="candidatePhone" type="tel" required placeholder="+1 415 555 1234" />
+            </div>
+          </div>
+
+          <label>Resume Text (optional)</label>
+          <textarea id="resumeText" placeholder=
 "Paste resume in plain text, for example:
 
 Name: Jane Doe
@@ -106,77 +180,97 @@ SKILLS
 Product strategy, Roadmapping, SQL, A/B testing, Analytics, JIRA, Figma
 
 EDUCATION
-B.Tech, Computer Science — XYZ University (2016)"
-        ></textarea>
+B.Tech, Computer Science — XYZ University (2016)"></textarea>
 
-        <label>Resume URL (optional)</label>
-        <input id="resumeUrl" type="url" placeholder="https://example.com/resume.pdf" />
-        <p class="hint">Both Resume Text and Resume URL are sent. If text is blank, the assistant can still use the URL if accessible.</p>
-      </div>
-
-      <!-- Job -->
-      <div class="section">
-        <h3>Job</h3>
-        <label>Job Description (optional)</label>
-        <textarea id="jdText" placeholder="Paste job description..."></textarea>
-
-        <div class="row">
-          <div class="col-6">
-            <label>Position (optional)</label>
-            <input id="position" type="text" placeholder="Senior PM" />
-          </div>
-          <div class="col-6">
-            <label>Organization (optional)</label>
-            <input id="organization" type="text" placeholder="Greentick" />
-          </div>
-          <div class="col-6">
-            <label>Preferred Location (optional)</label>
-            <input id="preferredLocation" type="text" placeholder="Bengaluru / Remote" />
+          <label>Resume URL (optional)</label>
+          <input id="resumeUrl" type="url" placeholder="https://example.com/resume.pdf" />
+          <p class="hint">Both Resume Text and Resume URL are sent. If text is blank, the assistant can still use the URL if it has access.</p>
+          <div id="intlWarn" class="note" style="display:none; margin-top:8px;">
+            Non-US destination detected. Free Vapi numbers typically cannot call internationally. Provide an imported carrier <b>phone number ID</b> or use a US (+1) destination.
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-6">
-            <label>Budget Min (optional)</label>
-            <input id="budgetMin" type="number" step="0.01" />
-          </div>
-          <div class="col-6">
-            <label>Budget Max (optional)</label>
-            <input id="budgetMax" type="number" step="0.01" />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <label>Currency (optional)</label>
-            <input id="currency" type="text" placeholder="USD / LPA" />
-          </div>
-          <div class="col-6">
-            <label>Languages (CSV, optional)</label>
-            <input id="languages" type="text" placeholder="english, chinese-mandarin, hindi" />
-          </div>
-        </div>
-      </div>
+        <!-- Job -->
+        <div class="section">
+          <h3>Job</h3>
+          <label>Job Description (optional)</label>
+          <textarea id="jdText" placeholder="Paste job description..."></textarea>
 
-      <pre id="status" class="status" aria-live="polite"></pre>
-      <div class="actions">
-        <button type="reset" class="btn btn-secondary">Clear</button>
-        <button type="submit" class="btn btn-primary">Place Phone Call</button>
-      </div>
-    </form>
-  </main>
+          <div class="grid g12">
+            <div class="col-6">
+              <label>Position (optional)</label>
+              <input id="position" type="text" placeholder="Senior PM" />
+            </div>
+            <div class="col-6">
+              <label>Organization (optional)</label>
+              <input id="organization" type="text" placeholder="Greentick" />
+            </div>
+            <div class="col-6">
+              <label>Preferred Location (optional)</label>
+              <input id="preferredLocation" type="text" placeholder="Bengaluru / Remote" />
+            </div>
+          </div>
+
+          <div class="grid g12">
+            <div class="col-6">
+              <label>Budget Min (optional)</label>
+              <input id="budgetMin" type="number" step="0.01" />
+            </div>
+            <div class="col-6">
+              <label>Budget Max (optional)</label>
+              <input id="budgetMax" type="number" step="0.01" />
+            </div>
+            <div class="col-6">
+              <label>Currency (optional)</label>
+              <input id="currency" type="text" placeholder="USD / LPA" />
+            </div>
+            <div class="col-6">
+              <label>Languages (CSV, optional)</label>
+              <input id="languages" type="text" placeholder="english, chinese-mandarin, hindi" />
+            </div>
+          </div>
+        </div>
+
+        <pre id="status" class="status" aria-live="polite"></pre>
+
+        <div class="actions">
+          <button type="reset" class="btn btn-secondary">Clear</button>
+          <button type="submit" class="btn btn-primary" id="submitBtn">
+            Place Phone Call
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <script>
-    // ======= OPTIONAL: set your project to pre-fill Function URL =======
-    const SUPABASE_URL = 'https://jveelmagtbnudwcdadpm.supabase.co'; // change if needed
-    // ================================================================
+    /* =======================
+       CONFIG DEFAULTS
+       ======================= */
+    // Auto-fills the Function URL field:
+    const SUPABASE_URL = 'https://jveelmagtbnudwcdadpm.supabase.co';
+
+    // Default values to prefill Assistant ID and Phone Number ID inputs:
+    const DEFAULT_ASSISTANT_ID = ''; // e.g. '043ea1df-0a47-4655-bbcc-5bc28851bb4b'
+    const DEFAULT_PHONE_NUMBER_ID = 'fbaf073f-6f1a-430c-b9e6-062e13a0674c'; // your known default
+
+    /* ======================= */
 
     const $ = (id) => document.getElementById(id);
-    const statusBox = $("status");
+    const statusBox = $('status');
+    const intlWarn = $('intlWarn');
 
-    // Pre-fill the function URL if SUPABASE_URL is set
-    $("fnUrl").value = SUPABASE_URL
-      ? SUPABASE_URL.replace(/\/$/, '') + '/functions/v1/temp-phone-call'
-      : '';
+    // Prefill URL & defaults
+    $('fnUrl').value = SUPABASE_URL ? SUPABASE_URL.replace(/\/$/, '') + '/functions/v1/temp-phone-call' : '';
+    if (DEFAULT_ASSISTANT_ID) $('assistantId').value = DEFAULT_ASSISTANT_ID;
+    if (DEFAULT_PHONE_NUMBER_ID) {
+      // Soft default: we show the pill but leave field empty; server will fallback if not provided.
+      // If you prefer to prefill visibly, uncomment next line:
+      // $('phoneNumberId').value = DEFAULT_PHONE_NUMBER_ID;
+      $('defaultsPill').style.display = 'inline-flex';
+    } else {
+      $('defaultsPill').style.display = 'none';
+    }
 
     function show(ok, msg, extra) {
       statusBox.className = "status " + (ok ? "ok" : "err");
@@ -192,32 +286,45 @@ B.Tech, Computer Science — XYZ University (2016)"
       if (s.startsWith("00")) s = "+" + s.slice(2);
       if (s.startsWith("+")) s = "+" + s.slice(1).replace(/\D/g, "");
       else s = s.replace(/\D/g, "");
-      if (!s.startsWith("+") && s.length === 10) s = "+91" + s; // handy default for 10-digit IN
+      if (!s.startsWith("+") && s.length === 10) s = "+91" + s; // convenience for IN
       return s;
     }
 
-    document.getElementById("callForm").addEventListener("submit", async (e) => {
+    function isNonUS(number){
+      return number && !String(number).startsWith('+1');
+    }
+
+    $('candidatePhone').addEventListener('input', () => {
+      const num = normalizePhone($('candidatePhone').value);
+      const hasCustomCaller = Boolean($('phoneNumberId').value.trim());
+      intlWarn.style.display = (!hasCustomCaller && isNonUS(num)) ? 'block' : 'none';
+    });
+    $('phoneNumberId').addEventListener('input', () => {
+      const num = normalizePhone($('candidatePhone').value);
+      const hasCustomCaller = Boolean($('phoneNumberId').value.trim());
+      intlWarn.style.display = (!hasCustomCaller && isNonUS(num)) ? 'block' : 'none';
+    });
+
+    $('callForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       statusBox.style.display = "none";
 
-      const fnUrl = $("fnUrl").value.trim();
-      const vapi_assistant_id = $("assistantId").value.trim();
-      const vapi_phone_number_id = $("phoneNumberId").value.trim();
-      const candidate_name = $("candidateName").value.trim();
-      const phone_number = normalizePhone($("candidatePhone").value);
-      const job_description = $("jdText").value.trim();
+      const fnUrl = $('fnUrl').value.trim();
+      const vapi_assistant_id = $('assistantId').value.trim();
+      const vapi_phone_number_id = $('phoneNumberId').value.trim();
 
-      // ✅ resume text placeholder + value is captured and sent
-      const resume_text = $("resumeText").value.trim();
-      const resume_url = $("resumeUrl").value.trim();
-
-      const position = $("position").value.trim();
-      const organization = $("organization").value.trim();
-      const preferred_location = $("preferredLocation").value.trim();
-      const budget_min = Number($("budgetMin").value);
-      const budget_max = Number($("budgetMax").value);
-      const currency = $("currency").value.trim();
-      const langsCSV = $("languages").value.trim();
+      const candidate_name = $('candidateName').value.trim();
+      const phone_number = normalizePhone($('candidatePhone').value);
+      const job_description = $('jdText').value.trim();
+      const resume_text = $('resumeText').value.trim();
+      const resume_url = $('resumeUrl').value.trim();
+      const position = $('position').value.trim();
+      const organization = $('organization').value.trim();
+      const preferred_location = $('preferredLocation').value.trim();
+      const budget_min = Number($('budgetMin').value);
+      const budget_max = Number($('budgetMax').value);
+      const currency = $('currency').value.trim();
+      const langsCSV = $('languages').value.trim();
 
       if (!fnUrl) return show(false, "Function URL is required");
       if (!vapi_assistant_id) return show(false, "Vapi Assistant ID is required");
@@ -226,29 +333,33 @@ B.Tech, Computer Science — XYZ University (2016)"
       const payload = {
         phone_number,
         vapi_assistant_id,
+        // If field empty, omit → server will fallback to DEFAULT_PHONE_NUMBER_ID
         vapi_phone_number_id: vapi_phone_number_id || undefined,
         candidate_name: candidate_name || undefined,
         interviewer_name: "HR Interviewer",
         job_description: job_description || undefined,
-
-        // 👇 passed as requested
         resume_text: resume_text || undefined,
         resume_url: resume_url || undefined,
-
         position: position || undefined,
         organization: organization || undefined,
         preferred_location: preferred_location || undefined,
         budget_min: Number.isFinite(budget_min) ? budget_min : undefined,
         budget_max: Number.isFinite(budget_max) ? budget_max : undefined,
         currency: currency || undefined,
-        languages: langsCSV ? langsCSV.split(",").map(s => s.trim()).filter(Boolean) : undefined,
+        languages: langsCSV ? langsCSV.split(',').map(s => s.trim()).filter(Boolean) : undefined,
         metadata: { from: "github-pages-temp-ui" }
       };
 
+      // Client-side heads-up for intl calling with default/free number (non-blocking)
+      if (!vapi_phone_number_id && isNonUS(phone_number)) {
+        intlWarn.style.display = 'block';
+      }
+
       try {
+        $('submitBtn').disabled = true;
         const res = await fetch(fnUrl, {
           method: "POST",
-          headers: { "Content-Type": "application/json" }, // verify_jwt=false -> no auth needed
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
 
@@ -256,11 +367,14 @@ B.Tech, Computer Science — XYZ University (2016)"
         let data; try { data = text ? JSON.parse(text) : {}; } catch { data = { raw: text }; }
 
         if (!res.ok || data?.ok === false) {
-          return show(false, data?.error || "Request failed", data?.details || data);
+          show(false, data?.error || "Request failed", data?.details || data);
+        } else {
+          show(true, "Call queued successfully ✅", data);
         }
-        show(true, "Call queued successfully ✅", data);
       } catch (err) {
         show(false, "Network error", { message: String(err) });
+      } finally {
+        $('submitBtn').disabled = false;
       }
     });
   </script>
